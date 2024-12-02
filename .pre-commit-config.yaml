@@ -1,15 +1,32 @@
 repos:
--   repo: https://github.com/python-poetry/poetry
-    rev: ''  # add version here
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
     hooks:
-    -   id: poetry-check
-    -   id: poetry-lock
-    -   id: poetry-export
-    -   id: poetry-install
--   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0  # Use the ref you want to point at
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: debug-statements
+
+  - repo: https://github.com/psf/black
+    rev: 24.2.0
     hooks:
-    -   id: trailing-whitespace
-    -   id: end-of-file-fixer
-    -   id: ruff
-    -   id: black
+      - id: black
+
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.3.0  # Use the latest release
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+      - id: ruff-format
+
+  - repo: local
+    hooks:
+      - id: pytest
+        name: Run pytest
+        entry: poetry run pytest tests
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-commit]
+  
